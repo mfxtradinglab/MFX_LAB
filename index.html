@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MFX TRADING LAB — Trading Journal</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="journal-container">
+
+        <!-- HEADER -->
+        <header class="journal-header">
+
+            <div class="brand">
+                <img src="logo.png" alt="MFX Trading Lab Logo">
+
+                <div>
+                    <h1>MFX TRADING LAB</h1>
+                    <p>TRADING JOURNAL</p>
+                </div>
+            </div>
+
+            <button id="downloadPngBtn" class="download-btn">
+                Download PNG
+            </button>
+
+        </header>
+
+
+        <!-- SUMMARY -->
+        <section class="summary">
+
+            <div class="summary-box">
+                <span>Total Trades</span>
+                <strong id="totalTrades">0</strong>
+            </div>
+
+            <div class="summary-box">
+                <span>Wins</span>
+                <strong id="totalWins">0</strong>
+            </div>
+
+            <div class="summary-box">
+                <span>Losses</span>
+                <strong id="totalLosses">0</strong>
+            </div>
+
+            <div class="summary-box">
+                <span>Break Even</span>
+                <strong id="totalBE">0</strong>
+            </div>
+
+            <div class="summary-box">
+                <span>Win Rate</span>
+                <strong id="winRate">0%</strong>
+            </div>
+
+            <div class="summary-box">
+                <span>Total P/L</span>
+                <strong id="totalProfit">$0.00</strong>
+            </div>
+
+        </section>
+
+
+        <!-- CONTROLS -->
+        <section class="controls">
+
+            <button id="addTradeBtn" class="add-btn">
+                + Add Trade
+            </button>
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search pair..."
+            >
+
+            <select id="resultFilter">
+                <option value="all">All Results</option>
+                <option value="WIN">Win</option>
+                <option value="LOSS">Loss</option>
+                <option value="BE">Break Even</option>
+                <option value="MISSED">Missed</option>
+            </select>
+
+        </section>
+
+
+        <!-- TABLE -->
+        <section class="table-wrapper">
+
+            <table id="tradingTable">
+
+                <thead>
+
+                    <tr>
+                        <th>Date</th>
+                        <th>Pair</th>
+                        <th>Direction</th>
+                        <th>Entry</th>
+                        <th>SL</th>
+                        <th>TP</th>
+                        <th>Lot</th>
+                        <th>Risk</th>
+                        <th>Result</th>
+                        <th>P/L</th>
+                        <th>Notes</th>
+                        <th>Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="tradeTableBody">
+
+                    <!-- Trades will be added here -->
+
+                </tbody>
+
+            </table>
+
+            <div id="emptyMessage" class="empty-message">
+                No trades recorded yet.
+            </div>
+
+        </section>
+
+
+        <!-- ADD / EDIT TRADE MODAL -->
+        <div id="tradeModal" class="modal">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h2 id="modalTitle">Add Trade</h2>
+
+                    <button id="closeModalBtn" class="close-btn">
+                        ×
+                    </button>
+
+                </div>
+
+
+                <form id="tradeForm">
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+                            <label>Date</label>
+                            <input
+                                type="date"
+                                id="tradeDate"
+                                required
+                            >
+                        </div>
+
+
+                        <div class="form-group">
+                            <label>Pair</label>
+
+                            <select id="tradePair" required>
+
+                                <option value="">Select Pair</option>
+
+                                <optgroup label="Forex">
+
+                                    <option>EURUSD</option>
+                                    <option>GBPUSD</option>
+                                    <option>USDJPY</option>
+                                    <option>USDCHF</option>
+                                    <option>USDCAD</option>
+                                    <option>AUDUSD</option>
+                                    <option>NZDUSD</option>
+
+                                </optgroup>
+
+                                <optgroup label="Metals">
+
+                                    <option>XAUUSD</option>
+                                    <option>XAGUSD</option>
+
+                                </optgroup>
+
+                                <optgroup label="Indices">
+
+                                    <option>US30</option>
+                                    <option>NAS100</option>
+                                    <option>SPX500</option>
+
+                                </optgroup>
+
+                                <optgroup label="Crypto">
+
+                                    <option>BTCUSD</option>
+                                    <option>ETHUSD</option>
+                                    <option>SOLUSD</option>
+
+                                </optgroup>
+
+                                <optgroup label="Oil">
+
+                                    <option>USOIL</option>
+                                    <option>UKOIL</option>
+
+                                </optgroup>
+
+                                <optgroup label="Synthetic">
+
+                                    <option>Volatility 10</option>
+                                    <option>Volatility 25</option>
+                                    <option>Volatility 50</option>
+                                    <option>Volatility 75</option>
+                                    <option>Volatility 100</option>
+                                    <option>Step Index</option>
+
+                                </optgroup>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <label>Direction</label>
+
+                            <select id="tradeDirection" required>
+
+                                <option value="">Select</option>
+                                <option value="BUY">BUY</option>
+                                <option value="SELL">SELL</option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <label>Entry</label>
+
+                            <input
+                                type="number"
+                                step="any"
+                                id="tradeEntry"
+                                placeholder="Entry price"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <label>Stop Loss</label>
+
+                            <input
+                                type="number"
+                                step="any"
+                                id="tradeSL"
+                                placeholder="Stop loss"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <label>Take Profit</label>
+
+                            <input
+                                type="number"
+                                step="any"
+                                id="tradeTP"
+                                placeholder="Take profit"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <label>Lot Size</label>
+
+                            <input
+                                type="number"
+                                step="any"
+                                id="tradeLot"
+                                placeholder="0.01"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <label>Risk</label>
+
+                            <input
+                                type="number"
+                                step="any"
+                                id="tradeRisk"
+                                placeholder="Risk amount"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <label>Result</label>
+
+                            <select id="tradeResult" required>
+
+                                <option value="">Select Result</option>
+                                <option value="WIN">WIN</option>
+                                <option value="LOSS">LOSS</option>
+                                <option value="BE">BE</option>
+                                <option value="MISSED">MISSED</option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <label>P/L</label>
+
+                            <input
+                                type="number"
+                                step="any"
+                                id="tradeProfit"
+                                placeholder="Profit / Loss"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group full-width">
+
+                            <label>Notes</label>
+
+                            <textarea
+                                id="tradeNotes"
+                                placeholder="Trade notes..."
+                                rows="3"
+                            ></textarea>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="save-btn"
+                        id="saveTradeBtn"
+                    >
+                        Save Trade
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PNG LIBRARY -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <!-- YOUR JAVASCRIPT -->
+    <script src="script.js"></script>
+
+</body>
+</html>
